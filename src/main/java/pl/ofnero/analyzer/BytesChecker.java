@@ -9,13 +9,13 @@ public class BytesChecker {
     private String fileName;
     private String pattern;
     private String fileType;
+    private SubsetChecker subsetChecker;
     
-    public BytesChecker() {}
-    
-    public BytesChecker(String fileName, String pattern, String fileType) {
+    public BytesChecker(String subsetChecker, String fileName, String pattern, String fileType) {
         this.fileName = fileName;
         this.pattern = pattern;
         this.fileType = fileType;
+        this.subsetChecker = subsetChecker.equals("--KMP") ? new KMPSubsetChecker() : new NaiveSubsetChecker();
     }
     
     public void fileMatchesPattern() {
@@ -27,21 +27,13 @@ public class BytesChecker {
         } catch (IOException e) {
             throw new IllegalStateException("Cannot read the file: " + fileName);
         }
-        System.out.println(isSubsetNaive(patternBytes, fileBytes) ? fileType : "Unknown file type");
+        long start = System.currentTimeMillis();
+        boolean isSubset = subsetChecker.isSubset(patternBytes, fileBytes);
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        System.out.println(isSubset ? fileType : "Unknown file type");
+        System.out.format("It took %.3f seconds%n", timeElapsed / 1000.0);
     }
     
-    public boolean isSubsetNaive(byte[] patternBytes, byte[] fileBytes) {
-        for (int i = 0; i <= fileBytes.length - patternBytes.length; i++) {
-            for (int j = 0; j < patternBytes.length; j++) {
-                if (patternBytes[j] != fileBytes[i + j]) {
-                    break;
-                }
-                if (j == patternBytes.length - 1) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }
 

@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'pl.ofnero'
+group 'pl.farmac'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
