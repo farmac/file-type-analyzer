@@ -8,7 +8,7 @@ public class Main {
         if (args.length != 3) {
             throw new IllegalArgumentException("Exactly 3 parameters required!");
         }
-        BytesChecker bytesChecker = new BytesChecker(args[0], args[1], args[2]);
-        //bytesChecker.fileMatchesPattern();
+        Analyzer analyzer = new Analyzer(args[0], args[1], args[2]);
+        analyzer.analyzeFiles();
     }
 }
