@@ -4,7 +4,7 @@ package pl.farmac.analyzer;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length != 3) {
             throw new IllegalArgumentException("Exactly 3 parameters required!");
         }
