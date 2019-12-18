@@ -1,4 +1,4 @@
-package pl.ofnero.analyzer;
+package pl.farmac.analyzer;
 
 public class NaiveSubsetChecker implements SubsetChecker {
     @Override

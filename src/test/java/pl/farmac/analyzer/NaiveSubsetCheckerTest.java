@@ -1,11 +1,11 @@
-package pl.ofnero.analyzer;
+package pl.farmac.analyzer;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KMPSubsetCheckerTest {
-    private SubsetChecker subsetChecker = new KMPSubsetChecker();
+class NaiveSubsetCheckerTest {
+    private SubsetChecker subsetChecker = new NaiveSubsetChecker();
     
     @Test
     void shouldTellThatFirstIsSubsetOfSecond() {
