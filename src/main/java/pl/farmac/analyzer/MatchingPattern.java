@@ -44,7 +44,7 @@ public class MatchingPattern {
             String[] temp = line.split(";");
             int priority = Integer.parseInt(temp[0]);
             String pat = temp[1].replace("\"", "");
-            String info = temp[2].replace("\"", " ");
+            String info = temp[2].replace("\"", "");
             matchingPatterns.add(new MatchingPattern(priority, pat, info));
         }
         
