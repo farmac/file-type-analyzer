@@ -1,10 +1,7 @@
 package pl.farmac.analyzer;
 
-
-import java.io.IOException;
-
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         if (args.length != 1) {
             throw new IllegalArgumentException("Pass directory as a parameter!");
         }

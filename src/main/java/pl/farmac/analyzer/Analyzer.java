@@ -15,8 +15,12 @@ public class Analyzer {
     private SubsetChecker subsetChecker;
     private List<MatchingPattern> matchingPatterns;
     
-    public Analyzer(String foldersPath) throws IOException {
-        this.files = getFiles(foldersPath);
+    public Analyzer(String foldersPath)  {
+        try {
+            this.files = getFiles(foldersPath);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("File does not exist or can not be read");
+        }
         this.matchingPatterns = MatchingPattern.parsePatterns("patterns.db");
         this.subsetChecker = new KMPSubsetChecker();
     }
