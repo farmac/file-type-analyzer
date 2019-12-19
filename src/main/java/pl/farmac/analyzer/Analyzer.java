@@ -12,23 +12,20 @@ import java.util.stream.Collectors;
 
 public class Analyzer {
     private List<File> files;
-    private String fileType;
     private SubsetChecker subsetChecker;
-    private byte[] patternBytes;
+    private List<MatchingPattern> matchingPatterns;
     
-    public Analyzer(String foldersPath, String pattern, String fileType) throws IOException {
+    public Analyzer(String foldersPath, String pattern) throws IOException {
         this.files = getFiles(foldersPath);
-        this.patternBytes = pattern.getBytes();
-        this.fileType = fileType;
+        this.matchingPatterns = MatchingPattern.parsePatterns(pattern);
         this.subsetChecker = new KMPSubsetChecker();
     }
-    
     
     public void analyzeFiles() throws InterruptedException {
         List<Callable<String>> callableList = new ArrayList<>();
         files.forEach(file -> callableList.add(() -> matchesPattern(file)));
         
-        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executorService = Executors.newFixedThreadPool(files.size());
         List<Future<String>> output = executorService.invokeAll(callableList);
         executorService.shutdown();
         
@@ -37,7 +34,7 @@ public class Analyzer {
                     try {
                         return i.get();
                     } catch (InterruptedException | ExecutionException e) {
-                        throw new IllegalThreadStateException("Thread has been interrupted or some other problems occurred.");
+                        throw new IllegalThreadStateException("Thread has been interrupted or some other problems have occurred.");
                     }
                 })
                 .collect(Collectors.toList());
@@ -49,13 +46,21 @@ public class Analyzer {
     
     private String matchesPattern(File file) {
         byte[] fileBytes;
+        boolean doesMatch;
         try {
             fileBytes = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
             throw new IllegalStateException("Cannot read the file: " + file);
         }
-        boolean isSubset = subsetChecker.isSubset(patternBytes, fileBytes);
-        return String.format("%s: %s", file.getName(), isSubset ? fileType : "Unknown file type");
+        
+        
+        for (MatchingPattern mp : matchingPatterns) {
+            doesMatch = subsetChecker.isSubset(mp.getBytes(), fileBytes);
+            if(doesMatch) {
+                return String.format("%s: %s", file.getName(), mp.getInfo());
+            }
+        }
+        return file.getName() + ": Unknown file type";
     }
     
     private List<File> getFiles(String foldersPath) throws IOException {

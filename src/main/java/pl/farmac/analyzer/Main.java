@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length != 3) {
-            throw new IllegalArgumentException("Exactly 3 parameters required!");
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Exactly 2 parameters required!");
         }
-        Analyzer analyzer = new Analyzer(args[0], args[1], args[2]);
+        Analyzer analyzer = new Analyzer(args[0], args[1]);
         analyzer.analyzeFiles();
     }
 }
