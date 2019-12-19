@@ -15,9 +15,9 @@ public class Analyzer {
     private SubsetChecker subsetChecker;
     private List<MatchingPattern> matchingPatterns;
     
-    public Analyzer(String foldersPath, String pattern) throws IOException {
+    public Analyzer(String foldersPath) throws IOException {
         this.files = getFiles(foldersPath);
-        this.matchingPatterns = MatchingPattern.parsePatterns(pattern);
+        this.matchingPatterns = MatchingPattern.parsePatterns("patterns.db");
         this.subsetChecker = new KMPSubsetChecker();
     }
     
@@ -25,7 +25,7 @@ public class Analyzer {
         List<Callable<String>> callableList = new ArrayList<>();
         files.forEach(file -> callableList.add(() -> matchesPattern(file)));
         
-        ExecutorService executorService = Executors.newFixedThreadPool(files.size());
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         List<Future<String>> output = executorService.invokeAll(callableList);
         executorService.shutdown();
         

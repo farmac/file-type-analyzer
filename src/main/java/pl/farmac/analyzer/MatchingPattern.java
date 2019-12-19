@@ -35,7 +35,7 @@ public class MatchingPattern {
     
         List<String> list;
         try {
-            list = new ArrayList<>(Files.readAllLines(Paths.get(pattern)));
+            list = new ArrayList<>(Files.readAllLines(Paths.get("patterns.db")));
         } catch (IOException e) {
             throw new IllegalStateException("Can not read file: " + pattern);
         }

@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Exactly 2 parameters required!");
+        if (args.length != 1) {
+            throw new IllegalArgumentException("Pass directory as a parameter!");
         }
-        Analyzer analyzer = new Analyzer(args[0], args[1]);
+        Analyzer analyzer = new Analyzer(args[0]);
         analyzer.analyzeFiles();
     }
 }
