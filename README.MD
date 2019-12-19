@@ -4,7 +4,7 @@ This project is part of the Java tutorial on [hyperskill.org.](https://hyperskil
 The program analyzes a file and determine its type.
 
 Usage:
-Clone the repositery and build the project using ```./gradlew build``` and type
+Clone the repository and build the project using ```./gradlew build```
 
 ````java -cp build/classes/java/main/ pl.farmac.analyzer.Main par````
 
